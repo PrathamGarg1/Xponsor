@@ -1,0 +1,20 @@
+{
+  "name": "brands.",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.0",
+    "@prisma/client": "^6.7.0",
+    "bcrypt": "^6.0.0",
+    "next-auth": "^4.24.11"
+  },
+  "devDependencies": {
+    "prisma": "^6.7.0"
+  }
+}
