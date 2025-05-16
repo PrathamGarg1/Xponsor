@@ -10,11 +10,18 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.0",
-    "@prisma/client": "^6.7.0",
+    "@prisma/client": "^6.8.0",
+    "@tailwindcss/postcss": "^4.1.6",
+    "autoprefixer": "^10.4.21",
     "bcrypt": "^6.0.0",
-    "next-auth": "^4.24.11"
+    "next": "^15.3.2",
+    "next-auth": "^4.24.11",
+    "postcss": "^8.5.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "tailwindcss": "^4.1.6"
   },
   "devDependencies": {
-    "prisma": "^6.7.0"
+    "prisma": "^6.8.0"
   }
 }
