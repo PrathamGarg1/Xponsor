@@ -1,7 +1,7 @@
 // hooks/useMessages.js
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useFetch } from './useFetch';
 import { useSession } from 'next-auth/react';
 
@@ -65,7 +65,6 @@ export function useConversation(userId) {
           setLoading(true);
         }
         
-        console.log(`Fetching messages for conversation with ${userId}`);
         const response = await fetch(`/api/messages/${userId}`);
         
         if (!response.ok) {
@@ -76,7 +75,6 @@ export function useConversation(userId) {
         const data = await response.json();
         
         if (isMounted) {
-          console.log(`Received ${data.messages?.length || 0} messages`);
           setMessages(data.messages || []);
           setError(null);
           
@@ -86,7 +84,6 @@ export function useConversation(userId) {
           }
         }
       } catch (error) {
-        console.error("Error fetching messages:", error);
         if (isMounted) {
           setError(error.message);
         }
@@ -110,8 +107,30 @@ export function useConversation(userId) {
   }, [userId]);
   
   const sendMessage = async (content = newMessage) => {
-    if (!content.trim() || !userId) return;
+    if (!content.trim() || !userId) return false;
     
+    // Create optimistic message for immediate display
+    const optimisticMessage = {
+      id: `temp-${Date.now()}`,
+      content,
+      createdAt: new Date().toISOString(),
+      sender: {
+        id: currentUserId,
+        name: session?.user?.name || 'You',
+        image: session?.user?.image || null
+      },
+      receiverId: userId,
+      senderId: currentUserId,
+      isRead: false
+    };
+    
+    // Update UI immediately with optimistic message
+    setMessages(prev => [...prev, optimisticMessage]);
+    
+    // Clear input field
+    setNewMessage('');
+    
+    // Send actual API request
     try {
       const response = await fetch('/api/messages', {
         method: 'POST',
@@ -120,7 +139,7 @@ export function useConversation(userId) {
         },
         body: JSON.stringify({
           receiverId: userId,
-          content: content
+          content
         })
       });
       
@@ -129,34 +148,37 @@ export function useConversation(userId) {
         throw new Error(errorData.message || 'Failed to send message');
       }
       
+      // On success, replace optimistic message with real one
       const data = await response.json();
       
-      // Add the new message to the list immediately for better UX
       if (data.message) {
-        // Use a callback to properly update state
-        setMessages(prev => [...prev, data.message]);
+        setMessages(prev => 
+          prev.map(msg => 
+            msg.id === optimisticMessage.id ? data.message : msg
+          )
+        );
       }
-      
-      // Clear the input
-      setNewMessage('');
       
       return true;
     } catch (error) {
       console.error('Error sending message:', error);
+      
+      // On failure, remove the optimistic message
+      setMessages(prev => prev.filter(msg => msg.id !== optimisticMessage.id));
+      
       return false;
     }
   };
   
   return {
     messages,
-    loading: loading && !initialLoadComplete, // Only show loading on initial fetch
+    loading: loading && !initialLoadComplete,
     error,
     newMessage,
     setNewMessage,
     sendMessage,
     currentUserId,
-    setMessages  // Add this line to export setMessages
-
+    setMessages
   };
 }
 

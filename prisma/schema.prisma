@@ -22,7 +22,7 @@ model User {
   userType      String    // "brand" or "influencer"
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-
+  onboarded         Boolean   @default(false)  
   // Relationships
   influencerProfile InfluencerProfile?
   brandProfile      BrandProfile?
@@ -36,11 +36,16 @@ model InfluencerProfile {
   userId          String   @unique
   user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   followerCount   Int
+
+  
+  instagramHandle String?    // This appears in your existing code
+  instagramId      String? 
+
   pricePerReel    Float?
   pricePerStory   Float?
   pricePerPost    Float?
+  
   niche           String?
-  instagramHandle String?
   publicLink      String   @unique
   allowMessages   Boolean  @default(true)
   createdAt       DateTime @default(now())

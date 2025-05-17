@@ -76,6 +76,6 @@ export async function GET(request) {
     return NextResponse.json({ influencers });
   } catch (error) {
     console.error('Error fetching influencers:', error);
-    return NextResponse.json({ message: 'Internal server error xfs' }, { status: 500 });
+    return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
   }
 }

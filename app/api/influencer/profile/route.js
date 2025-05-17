@@ -59,7 +59,6 @@ export async function PUT(request) {
           pricePerPost: pricePerPost !== undefined ? parseFloat(pricePerPost) : user.influencerProfile.pricePerPost,
           niche: niche !== undefined ? niche : user.influencerProfile.niche,
           instagramHandle: instagramHandle !== undefined ? instagramHandle : user.influencerProfile.instagramHandle,
-          allowMessages: allowMessages !== undefined ? allowMessages : user.influencerProfile.allowMessages,
         },
       });
       
