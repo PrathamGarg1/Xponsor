@@ -1,3 +1,21 @@
+Make these changes
+
+Correct the routes and the flow should be like .. '/' should just ask them whether they are a brand or a influencer and that redirects to google sign in and so we will always get the userType in the beginning itself
+after that if it chose to be influencer then it will be redirected to '/onboarding' .. there we dont need to again ask for influencer or brand .. just write some more text specific to influencers and convince them to connect their instagram and how we follow official instagram all rules
+After that instagram redirects to the influencer dashboard
+Influencers should not be able to edit the sections of the followerCnt and instagram handle by themselves .. it is fixed quantity whatever has came from instagram api
+The Niche of influencers should be chosen from sufficiently disjoint fixed options ... ie as a dropdown in '/brand/influencers' and when updating the influencer profile .
+
+
+
+
+
+
+
+#--------------------
+
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
