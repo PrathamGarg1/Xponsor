@@ -1,7 +1,9 @@
 // app/api/auth/[...nextauth]/route.js
+
 import NextAuth from "next-auth";
 import GoogleProvider from 'next-auth/providers/google';
 import prisma from '@/lib/db';
+import { cookies } from 'next/headers'; // This import is correct
 
 export const authOptions = {
   providers: [
@@ -15,7 +17,7 @@ export const authOptions = {
       return token;
     },
     async session({ session, token }) {
-      if (session?.user) {
+      if (session?.user?.email) {
         session.user.id = token.sub;
         
         // Get user data
@@ -30,32 +32,37 @@ export const authOptions = {
       }
       return session;
     },
+    // --- THIS IS THE CORRECTED signIn CALLBACK ---
     async signIn({ user, account }) {
-      // Check if this is a new user
-
-      let userType = null;
-      if (account?.state) {
-        try {
-          const stateObj = JSON.parse(account.state);
-          userType = stateObj.userType;
-        } catch (err) {
-          console.error('Failed to parse state:', err);
-        }
+      if (account?.provider !== 'google' || !user.email) {
+        return false; // Stop sign-in if not Google or no email
       }
 
+      // 1. AWAIT the cookies() function to get the cookie store
+      const cookieStore = await cookies();
+      const userTypeCookie = cookieStore.get('user-type-selection');
+      console.log("userTypeCookie:",userTypeCookie)
+      const userType = userTypeCookie?.value;
+      console.log("usertype:",userType)
+
+      // 2. DELETE the cookie after reading its value
+      if (userTypeCookie) {
+        cookieStore.delete('user-type-selection');
+      }
 
       const existingUser = await prisma.user.findUnique({
         where: { email: user.email }
       });
       
       if (!existingUser) {
-        // Create the user with a pending userType (will be updated during onboarding)
+        // Create the user with the userType from the cookie
         await prisma.user.create({
           data: {
             email: user.email,
             name: user.name,
             image: user.image,
-            userType: userType  || 'influencer'
+            // Use the value from the cookie, with a fallback just in case
+            userType: userType || 'influencer'
           }
         });
       }
