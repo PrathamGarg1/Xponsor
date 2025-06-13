@@ -30,8 +30,20 @@ export const authOptions = {
       }
       return session;
     },
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account }) {
       // Check if this is a new user
+
+      let userType = null;
+      if (account?.state) {
+        try {
+          const stateObj = JSON.parse(account.state);
+          userType = stateObj.userType;
+        } catch (err) {
+          console.error('Failed to parse state:', err);
+        }
+      }
+
+
       const existingUser = await prisma.user.findUnique({
         where: { email: user.email }
       });
@@ -43,7 +55,7 @@ export const authOptions = {
             email: user.email,
             name: user.name,
             image: user.image,
-            // userType will be set during onboarding
+            userType: userType  || 'influencer'
           }
         });
       }

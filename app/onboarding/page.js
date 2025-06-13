@@ -9,7 +9,7 @@ import Loading from '@/components/ui/Loading';
 export default function OnboardingPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
     // If not logged in, redirect to home
@@ -32,42 +32,42 @@ export default function OnboardingPage() {
     }
     
     // Get selected user type from localStorage
-    const userType = localStorage.getItem('selectedUserType');
+    // const userType = localStorage.getItem('selectedUserType');
     
     // Update user type in database
-    if (status === 'authenticated') {
-      updateUserType(userType || 'influencer');
-    }
+    // if (status === 'authenticated') {
+    //   updateUserType(userType || 'influencer');
+    // }
   }, [session, status, router]);
   
-  const updateUserType = async (userType) => {
-    try {
-      const response = await fetch('/api/user/type', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ userType })
-      });
+  // const updateUserType = async (userType) => {
+  //   try {
+  //     const response = await fetch('/api/user/type', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify({ userType })
+  //     });
       
-      // If it's a brand, they're fully onboarded, redirect to dashboard
-      if (userType === 'brand' && response.ok) {
-        router.push('/brand/dashboard');
-      } else {
-        // For influencers, we stay on this page for Instagram connection
-        setIsLoading(false);
-      }
-    } catch (error) {
-      console.error('Error updating user type:', error);
-      setIsLoading(false);
-    }
-  };
+  //     // If it's a brand, they're fully onboarded, redirect to dashboard
+  //     if (userType === 'brand' && response.ok) {
+  //       router.push('/brand/dashboard');
+  //     } else {
+  //       // For influencers, we stay on this page for Instagram connection
+  //       setIsLoading(false);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error updating user type:', error);
+  //     setIsLoading(false);
+  //   }
+  // };
   
   const connectInstagram = () => {
     window.location.href = process.env.NEXT_PUBLIC_INSTAGRAM_AUTH_URL;
   };
   
-  if (isLoading || status === 'loading') {
+  if (status === 'loading') {
     return <Loading />;
   }
   

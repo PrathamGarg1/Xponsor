@@ -9,9 +9,13 @@ export default function HomePage() {
   const [hoveredCard, setHoveredCard] = useState(null);
 
   const handleUserTypeSelect = (type) => {
-    localStorage.setItem('selectedUserType', type);
+    // localStorage.setItem('selectedUserType', type);
     const callbackUrl = type === 'influencer' ? '/onboarding' : '/brand/dashboard';
-    signIn('google', { callbackUrl });
+    // signIn('google', { callbackUrl });
+    signIn('google', {
+      callbackUrl,
+      state: JSON.stringify({ userType: type }) // pass userType here
+    });
   };
   
   return (
@@ -30,6 +34,8 @@ export default function HomePage() {
               <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
+              
+              
             </div>
             <h1 className="text-5xl font-bold text-white mb-4 tracking-tight">
               Welcome to <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Xponsor</span>
