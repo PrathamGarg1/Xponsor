@@ -52,6 +52,8 @@ export default function InstagramCallback() {
   }, [router, searchParams]);
   
   return (
+    <Suspense fallback={<div>Loading...</div>}>
+
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
       {error ? (
         <div className="text-center">
@@ -67,5 +69,7 @@ export default function InstagramCallback() {
         </>
       )}
     </div>
+
+    </Suspense>
   );
 }

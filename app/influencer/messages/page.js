@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, Suspense } from 'react';
 import { useConversations, useConversation } from '@/hooks/useMessages';
 import Loading from '@/components/ui/Loading';
 import Error from '@/components/ui/Error';
@@ -76,6 +76,8 @@ export default function InfluencerMessages() { // Replace with BrandMessages or 
   }
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
+
     <div className="flex flex-col h-screen max-h-screen bg-gray-100">
       <div className="bg-white shadow">
         <div className="container mx-auto px-4 py-4">
@@ -260,5 +262,6 @@ export default function InfluencerMessages() { // Replace with BrandMessages or 
         </div>
       </div>
     </div>
+    </Suspense>
   );
 }
