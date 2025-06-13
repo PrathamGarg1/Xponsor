@@ -7,6 +7,9 @@ import { useAuth } from '../context/AuthContext';
 
 export function useProfile() {
   const { user } = useAuth();
+  console.log(user)
+  console.log(" ye aaya hai kya")
+  
   const [isEditing, setIsEditing] = useState(false);
   
   const profileUrl = user?.userType === 'influencer' 
@@ -14,6 +17,8 @@ export function useProfile() {
     : '/api/brand/profile';
   
   const { data, loading, error } = useFetch(profileUrl);
+  console.log(profileUrl);
+  console.log(data);
   
   const [formData, setFormData] = useState({});
   

@@ -22,6 +22,7 @@ export default function ProfilePage() {
   }
   
   if (error) {
+    console.log(profile);
     return <Error message={error} />;
   }
   
@@ -74,10 +75,6 @@ export default function ProfilePage() {
               </div>
             </div>
             
-            <div className="mb-4">
-              <h3 className="text-md font-semibold mb-2">Public Profile Link</h3>
-              <p className="text-blue-500 underline">{profile?.publicLink}</p>
-            </div>
             
             <button
               onClick={() => setIsEditing(true)}
@@ -100,7 +97,7 @@ export default function ProfilePage() {
                   type="number"
                   name="followerCount"
                   value={formData.followerCount || ''}
-                  onChange={handleChange}
+                  // onChange={handleChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
@@ -110,7 +107,7 @@ export default function ProfilePage() {
                   type="text"
                   name="instagramHandle"
                   value={formData.instagramHandle || ''}
-                  onChange={handleChange}
+                  // onChange={handleChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
