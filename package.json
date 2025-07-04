@@ -1,0 +1,29 @@
+{
+  "name": "brands.",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.0",
+    "@prisma/client": "^6.8.0",
+    "@tailwindcss/postcss": "^4.1.6",
+    "autoprefixer": "^10.4.21",
+    "axios": "^1.9.0",
+    "bcrypt": "^6.0.0",
+    "js-cookie": "^3.0.5",
+    "next": "^15.3.2",
+    "next-auth": "^4.24.11",
+    "postcss": "^8.5.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "tailwindcss": "^4.1.6"
+  },
+  "devDependencies": {
+    "prisma": "^6.8.0"
+  }
+}
