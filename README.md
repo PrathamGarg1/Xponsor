@@ -1,4 +1,4 @@
-# Xponsor 🚀
+# Xponsor 
 
 A modern influencer-brand collaboration platform that connects brands with social media influencers through intelligent matching and secure messaging.
 
